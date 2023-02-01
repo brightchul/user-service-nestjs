@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
 
 const envFilePath = `${__dirname}/config/env/.${
   process.env.NODE_ENV ?? 'development'
@@ -11,6 +12,7 @@ const envFilePath = `${__dirname}/config/env/.${
 
 @Module({
   imports: [
+    UsersModule,
     ConfigModule.forRoot({
       envFilePath,
       isGlobal: true,

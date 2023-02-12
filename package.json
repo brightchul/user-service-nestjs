@@ -34,7 +34,8 @@
     "rxjs": "^7.5.5",
     "sqlite3": "^5.1.4",
     "typeorm": "^0.3.11",
-    "ulid": "^2.3.0"
+    "ulid": "^2.3.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -44,6 +45,7 @@
     "@types/jest": "^28.1.4",
     "@types/node": "^18.0.3",
     "@types/supertest": "^2.0.12",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
     "eslint": "^8.19.0",

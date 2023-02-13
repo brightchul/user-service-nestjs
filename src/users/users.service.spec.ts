@@ -2,24 +2,21 @@ import { UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { EmailService } from 'src/email/email.service';
 import { UserEntity } from './entities/user.entity';
 import { UsersModule } from './users.module';
 import { UsersService } from './users.service';
 
-import * as path from 'path';
-import * as dotenv from 'dotenv';
-
 describe('UsersService', () => {
   let module: TestingModule;
   let service: UsersService;
-
-  beforeAll(() => {
-    dotenv.config({
-      path: path.resolve(`src/config/env/.development.env`),
-    });
-  });
+  let sendUserVerificationEmailMock;
 
   beforeEach(async () => {
+    sendUserVerificationEmailMock = jest
+      .fn()
+      .mockImplementation(() => console.log('email sent'));
+
     module = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot({
@@ -30,7 +27,10 @@ describe('UsersService', () => {
         }),
         UsersModule,
       ],
-    }).compile();
+    })
+      .overrideProvider(EmailService)
+      .useValue({ sendUserVerificationEmail: sendUserVerificationEmailMock })
+      .compile();
 
     service = module.get(UsersService);
     await service.createUser('tom', 'tom@email.com', '!@#$');

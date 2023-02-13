@@ -35,17 +35,17 @@ export class UsersService {
       await manager.save(user);
     });
 
-    await this.sendUserVerficationEmail(email, signupVerifyToken);
+    await this.sendUserVerificationEmail(email, signupVerifyToken);
   }
 
   async hasEmail(email: string) {
     return (await this.userRepository.findOne({ where: { email } })) !== null;
   }
 
-  private async sendUserVerficationEmail(
+  private async sendUserVerificationEmail(
     email: string,
     signupVerifyToken: string,
   ) {
-    await this.emailService.sendUserVerficationEmail(email, signupVerifyToken);
+    await this.emailService.sendUserVerificationEmail(email, signupVerifyToken);
   }
 }

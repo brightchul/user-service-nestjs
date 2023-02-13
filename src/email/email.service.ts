@@ -25,7 +25,7 @@ export class EmailService {
     this.baseUrl = process.env.EMAIL_BASE_URL;
   }
 
-  async sendUserVerficationEmail(email: string, signupVerifyToken: string) {
+  async sendUserVerificationEmail(email: string, signupVerifyToken: string) {
     const url = `${this.baseUrl}/users/email-verify?signupVerifyToken=${signupVerifyToken}`;
 
     const verificationEmail: VerificationEmail = {

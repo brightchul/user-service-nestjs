@@ -6,9 +6,18 @@ import { UserEntity } from './entities/user.entity';
 import { UsersModule } from './users.module';
 import { UsersService } from './users.service';
 
+import * as path from 'path';
+import * as dotenv from 'dotenv';
+
 describe('UsersService', () => {
   let module: TestingModule;
   let service: UsersService;
+
+  beforeAll(() => {
+    dotenv.config({
+      path: path.resolve(`src/config/env/.development.env`),
+    });
+  });
 
   beforeEach(async () => {
     module = await Test.createTestingModule({

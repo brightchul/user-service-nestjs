@@ -6,11 +6,13 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { UserEntity } from './entities/user.entity';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private datasource: DataSource,
+    private emailService: EmailService,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
   ) {}
@@ -32,9 +34,18 @@ export class UsersService {
 
       await manager.save(user);
     });
+
+    await this.sendUserVerficationEmail(email, signupVerifyToken);
   }
 
   async hasEmail(email: string) {
     return (await this.userRepository.findOne({ where: { email } })) !== null;
+  }
+
+  private async sendUserVerficationEmail(
+    email: string,
+    signupVerifyToken: string,
+  ) {
+    await this.emailService.sendUserVerficationEmail(email, signupVerifyToken);
   }
 }

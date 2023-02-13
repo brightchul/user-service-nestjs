@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
 import { UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -15,6 +18,12 @@ const initUserData = {
 
 describe('UsersController', () => {
   let controller: UsersController;
+
+  beforeAll(() => {
+    dotenv.config({
+      path: path.resolve(`src/config/env/.development.env`),
+    });
+  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

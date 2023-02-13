@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
+import { EmailModule } from './email/email.module';
 
 const envFilePath = `${__dirname}/config/env/.${
   process.env.NODE_ENV ?? 'development'
@@ -27,6 +28,7 @@ const envFilePath = `${__dirname}/config/env/.${
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: process.env.DB_SYNCHRONIZE === 'true',
     }),
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

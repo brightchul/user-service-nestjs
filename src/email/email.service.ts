@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import Mail from 'nodemailer/lib/mailer';
-import * as nodemailer from 'nodemailer';
+
+import { createTransport, Transporter } from 'nodemailer';
 
 interface VerificationEmail {
   to: string;
@@ -13,15 +14,8 @@ export class EmailService {
   private transporter: Mail;
   private baseUrl: string;
 
-  constructor() {
-    this.transporter = nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE,
-      auth: {
-        user: process.env.EMAIL_AUTH_USER,
-        pass: process.env.EMAIL_AUTH_PASSWORD,
-      },
-    });
-
+  constructor(@Inject('NODEMAILER') transporter: Transporter) {
+    this.transporter = transporter;
     this.baseUrl = process.env.EMAIL_BASE_URL;
   }
 
@@ -42,3 +36,15 @@ export class EmailService {
     return await this.transporter.sendMail(verificationEmail);
   }
 }
+
+export const nodemailerProvider = {
+  provide: 'NODEMAILER',
+  useFactory: () =>
+    createTransport({
+      service: process.env.EMAIL_SERVICE,
+      auth: {
+        user: process.env.EMAIL_AUTH_USER,
+        pass: process.env.EMAIL_AUTH_PASSWORD,
+      },
+    }),
+};

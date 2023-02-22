@@ -50,4 +50,20 @@ describe('AuthService', () => {
       });
     });
   });
+
+  describe('verify', () => {
+    it('should return the user ID and email from a valid token', () => {
+      const user = {
+        id: '123',
+        name: 'James Bone',
+        email: 'jamesbone@example.com',
+      };
+
+      const token = service.login(user);
+      const { userId, email } = service.verify(token);
+
+      expect(userId).toBe(user.id);
+      expect(email).toBe(user.email);
+    });
+  });
 });
